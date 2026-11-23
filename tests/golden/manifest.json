@@ -1,0 +1,99 @@
+{
+  "description": "Golden reference fixtures for Factor 5 MusyX Sound System (musyx-rs)",
+  "adpcm_fixtures": {
+    "input_fixture": {
+      "filename": "adpcm_input.bin",
+      "size": 512,
+      "sample_count": 1024,
+      "sha256": "b02eb9148242063531121c4f37440f697efe9aa0c9b51046487bbd728cc04ccf"
+    },
+    "expected_pcm": {
+      "filename": "adpcm_expected_pcm.bin",
+      "size": 2048,
+      "sample_count": 1024,
+      "format": "linear_pcm16_le",
+      "sha256": "0c50fd2e0478896bae359ef7b72f9648a0defc868355304a183a09368ac194ee"
+    }
+  },
+  "synthesis_fixtures": {
+    "accuracy_synth_mixed_pcm16": {
+      "filename": "accuracy_synth_mixed_pcm16.bin",
+      "size": 512,
+      "channels": 2,
+      "frames": 128,
+      "sha256": "c25ce8d4fecd3f30327c4f3ba992f086c20e2358e12f19aadb1139299be08841"
+    },
+    "directsound_fifo_rayman": {
+      "filename": "directsound_fifo_rayman.bin",
+      "size": 256,
+      "channels": 2,
+      "frames": 128,
+      "format": "pcm8_signed_interleaved_dma",
+      "sha256": "8da96700ea587a6e8a2505b9de484ddfd8527f34deeaec8a8490ec026849948d"
+    }
+  },
+  "samples": {
+    "rayman_sample_0": {
+      "title": "Rayman Advance",
+      "sample_index": 0,
+      "filename": "rayman_sample_0.pcm",
+      "size": 581,
+      "sample_rate": 11025,
+      "loop_start": 413,
+      "sha256": "17ae8e410de02e03440a8471eb0efdaadf4494caaea51748d65518197804662d"
+    },
+    "rayman_sample_0_block": {
+      "title": "Rayman Advance (Header + Data)",
+      "sample_index": 0,
+      "filename": "rayman_sample_0.bin",
+      "size": 597,
+      "sample_rate": 11025,
+      "loop_start": 413,
+      "sha256": "56974c3b8b93fa5e2a0a16f2651a63378ccd66b56f56615ba7cdfb333a3c21a8"
+    },
+    "rayman_sample_1": {
+      "title": "Rayman Advance",
+      "sample_index": 1,
+      "filename": "rayman_sample_1.pcm",
+      "size": 1455,
+      "sample_rate": 11025,
+      "loop_start": 0,
+      "sha256": "eb2c9f21bbb2d9511ca355e98d34b41da7168ab4673a12e49a61f94ac00218f8"
+    },
+    "rayman_sample_2": {
+      "title": "Rayman Advance",
+      "sample_index": 2,
+      "filename": "rayman_sample_2.pcm",
+      "size": 2286,
+      "sample_rate": 11025,
+      "loop_start": 557,
+      "sha256": "72cd33435d9d64c075d9a329739630aae504e9dc7b070b8e99986e6b5f99e35b"
+    }
+  },
+  "rates": [
+    {
+      "name": "standard_gba",
+      "rate": 13379,
+      "reload": 64282,
+      "cycles": 1254
+    },
+    {
+      "name": "rayman_advance",
+      "rate": 8192,
+      "reload": 63488,
+      "cycles": 2048
+    },
+    {
+      "name": "hi_quality",
+      "rate": 18158,
+      "reload": 64612,
+      "cycles": 924
+    },
+    {
+      "name": "studio_quality",
+      "rate": 26760,
+      "reload": 64909,
+      "cycles": 627
+    }
+  ]
+}

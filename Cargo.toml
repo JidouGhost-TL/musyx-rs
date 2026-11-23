@@ -1,0 +1,25 @@
+[package]
+name = "musyx"
+version = "0.1.0"
+edition = "2021"
+authors = ["The gbakit Authors"]
+description = "Pure Rust, zero-dependency parser, ADPCM decoder, software synthesizer, and golden-tested emulator for Factor 5 MusyX Sound System (Game Boy Advance)"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/jidoughost-tl/musyx-rs"
+keywords = ["gba", "musyx", "factor5", "audio", "synthesizer"]
+categories = ["multimedia::audio", "emulators", "no-std"]
+
+[dependencies]
+
+[features]
+default = ["std"]
+std = ["alloc"]
+alloc = []
+
+[dev-dependencies]
+
+[[bench]]
+name = "bench_audio"
+harness = false
+
