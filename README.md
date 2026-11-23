@@ -10,6 +10,8 @@ The **MusyX Sound System** was created by Chris Hülsbeck and the Factor 5 audio
 
 `musyx-rs` provides a clean-room, reverse-engineered implementation designed for audio preservation, DAWs, PC source ports, and emulators.
 
+> **Looking for a ready-to-use CLI?** You can scan GBA ROMs, decode ADPCM/PCM WAV samples, and compile SoundFont 2.04 (`.sf2`) banks directly from the command line using our **[gbakit](https://github.com/JidouGhost-TL/gbakit)** toolkit (`gbakit audio scan`, `gbakit audio export`, `gbakit audio soundfont`).
+
 ---
 
 ## Features
