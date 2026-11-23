@@ -1,6 +1,6 @@
 [package]
 name = "musyx"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["The gbakit Authors"]
 description = "Pure Rust, zero-dependency parser, ADPCM decoder, software synthesizer, and golden-tested emulator for Factor 5 MusyX Sound System (Game Boy Advance)"
