@@ -3,7 +3,7 @@
 #[cfg(feature = "alloc")]
 use alloc::vec::Vec;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum MusyXSampleFormat {
     Pcm8,
     Pcm16,
@@ -14,7 +14,7 @@ pub enum MusyXSampleFormat {
 ///
 /// Enables `#![no_std]` applications to play samples directly from ROM or static buffers
 /// without requiring a heap allocator (`feature = "alloc"`).
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct MusyXSampleView<'a> {
     pub id: u32,
     pub format: MusyXSampleFormat,
@@ -132,7 +132,7 @@ impl<'a> MusyXSampleView<'a> {
                 Ok(out)
             }
             MusyXSampleFormat::Adpcm4 => {
-                crate::adpcm::MusyXAdpcm::decode(self.raw_bytes, self.raw_bytes.len() * 2)
+                crate::adpcm::MusyXAdpcm::decode(self.raw_bytes, self.raw_bytes.len().saturating_mul(2))
             }
         }
     }
@@ -158,7 +158,7 @@ impl<'a> MusyXSampleView<'a> {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct MusyXSample {
     pub id: u32,
     pub format: MusyXSampleFormat,

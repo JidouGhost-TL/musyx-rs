@@ -2,7 +2,8 @@
 
 use core::fmt;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[non_exhaustive]
 pub enum Error {
     InvalidMagic,
     UnsupportedVersion(u8),

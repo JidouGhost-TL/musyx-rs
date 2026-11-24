@@ -4,7 +4,7 @@
 use alloc::vec::Vec;
 
 /// A single active playback voice in the MusyX software synthesizer.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct MusyXVoice {
     pub sample_id: u32,
     /// Fixed-point position in sample: integer part in high bits, 12-bit fractional phase in low bits.
@@ -121,7 +121,7 @@ impl AccuracySynth {
                 *out_r = out_r.saturating_add(r_sample);
             }
 
-            voice.position_fixed = voice.position_fixed.wrapping_add((count as u32) << 12);
+            voice.position_fixed = voice.position_fixed.wrapping_add((count as u32).wrapping_shl(12));
             if count < len {
                 voice.is_active = false;
             }
@@ -209,7 +209,7 @@ impl AccuracySynth {
                 *out_r = out_r.saturating_add(r_sample);
             }
 
-            voice.position_fixed = voice.position_fixed.wrapping_add((count as u32) << 12);
+            voice.position_fixed = voice.position_fixed.wrapping_add((count as u32).wrapping_shl(12));
             if count < len {
                 voice.is_active = false;
             }
@@ -271,7 +271,7 @@ impl AccuracySynth {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct StudioSynth {
     pub sample_rate: u32,
     pub sinc_quality: u8,

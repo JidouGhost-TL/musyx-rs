@@ -49,7 +49,8 @@ impl MusyXAdpcm {
     /// Decode a 4-bit ADPCM nibble stream into 16-bit signed linear PCM.
     #[cfg(feature = "alloc")]
     pub fn decode(input: &[u8], sample_count: usize) -> Result<Vec<i16>> {
-        let mut out = alloc::vec![0i16; sample_count];
+        let cap = sample_count.min(input.len().saturating_mul(2));
+        let mut out = alloc::vec![0i16; cap];
         let decoded = Self::decode_to_slice(input, &mut out);
         out.truncate(decoded);
         Ok(out)
@@ -123,5 +124,9 @@ mod tests {
         let data = [0x12, 0x34];
         let pcm = MusyXAdpcm::decode(&data, 3).unwrap();
         assert_eq!(pcm.len(), 3);
+
+        // Huge sample_count must not OOM-panic; capped to input.len() * 2
+        let capped = MusyXAdpcm::decode(&data, usize::MAX).unwrap();
+        assert_eq!(capped.len(), 4);
     }
 }

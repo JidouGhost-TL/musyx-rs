@@ -3,7 +3,7 @@
 **Zero-dependency, pure Rust parser, ADPCM decoder, software synthesizer, and golden-tested emulator for the Factor 5 MusyX Sound System (Game Boy Advance).**
 
 [![Crates.io](https://img.shields.io/crates/v/musyx.svg)](https://crates.io/crates/musyx)
-[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE-MIT)
+[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](#license)
 [![no_std](https://img.shields.io/badge/no__std-compatible-success.svg)](#features)
 
 The **MusyX Sound System** was created by Chris Hülsbeck and the Factor 5 audio engineering team at **Factor 5**. Revered for its advanced digital signal processing capabilities, MusyX powered high-end GBA soundtracks including *Rayman Advance*, *Star Wars: Jedi Power Battles*, *Contra Advance*, and *Top Gear Rally*.
@@ -61,10 +61,26 @@ AccuracySynth::mix_voice_pcm16(&pcm16_buf, &mut voice, &mut left, &mut right);
 
 ## Golden Test Methodology
 
-To ensure 100% mathematical accuracy without guesswork:
-1. **Tier 1 (Bit-Exact ADPCM)**: Decompressed sample buffers are bit-matched against the ARM decompressor output in mGBA.
-2. **Tier 2 (Sequencer State Transitions)**: Voice allocations, MIDI controller changes, pitch bends, and ADSR envelopes are asserted against the ARM driver's RAM state at every 60 Hz frame.
-3. **Tier 3 (End-to-End Stream Correlation)**: The software mixer output is correlated against raw PCM dumped from hardware DMA registers (`REG_FIFO_A` and `REG_FIFO_B`).
+To ensure 100% mathematical accuracy without guesswork (SHA-256 manifest in `tests/golden/manifest.json`):
+1. **Tier 1 (Bit-Exact 4-Bit ADPCM & Sample Headers)**: 1,024-sample (`2,048`-byte) ADPCM decompression golden including full `+32767` / `-32768` saturation boundaries, plus 3 *Rayman Advance* sample fixtures and 16-byte header-block parsing.
+2. **Tier 2 (Driver Versions & Hardware Rates)**: Version detection (`MusyXVersion::V1_0` / `V2_0`) and GBA Timer 0 rate constants.
+3. **Tier 3 (Bit-Exact ARM Mixer & DirectSound DMA FIFO)**: Strict byte-for-byte (`assert_eq!`) verification of 128-frame stereo 16-bit intermediate mixing (`512` bytes, ARM `0x0804E210`) and DirectSound 8-bit DMA FIFO clamping (`256` bytes, ARM `0x0804E064`).
+
+---
+
+## Benchmarks
+
+```sh
+cargo bench --bench bench_audio
+```
+
+| Benchmark | Throughput |
+| --- | ---: |
+| `MusyXAdpcm::decode_to_slice` (1,024 samples) | ~839 MSamples/s |
+| `AccuracySynth::mix_voice_pcm16` (1:1 pitch, 1,024f) | ~2.13 GSamples/s |
+| `AccuracySynth::mix_voice_pcm16` (resampled `0x1500`, 1,024f) | ~455 MSamples/s |
+| `AccuracySynth::mix_voice_pcm8` (1:1 pitch, 1,024f) | ~2.10 GSamples/s |
+| `AccuracySynth::mix_voice_pcm8` (resampled `0x1500`, 1,024f) | ~489 MSamples/s |
 
 ---
 
